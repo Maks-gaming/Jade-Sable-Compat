@@ -1,0 +1,16 @@
+{
+  "java.import.gradle.wrapper.enabled": true,
+  "java.import.gradle.java.home": "c:\\Users\\mgcode\\.jdk\\jdk-21.0.10",
+  "java.jdt.ls.java.home": "c:\\Users\\mgcode\\.jdk\\jdk-21.0.10",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-21",
+      "path": "c:\\Users\\mgcode\\.jdk\\jdk-21.0.10",
+      "default": true
+    }
+  ],
+  "java.project.outputPath": "build/vscode-java",
+  "java.debug.settings.forceBuildBeforeLaunch": false,
+  "java.debug.settings.onBuildFailureProceed": false
+}

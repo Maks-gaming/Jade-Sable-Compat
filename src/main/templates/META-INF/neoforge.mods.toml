@@ -1,0 +1,40 @@
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+logoFile = "mod_logo.png"
+description = '''
+Fixes Jade block targeting and tooltip selection for blocks on Sable sublevels and moving constructions.
+'''
+
+[[dependencies.sablejade]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neo_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.sablejade]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.sablejade]]
+modId = "sable"
+type = "required"
+versionRange = "[1.1.3,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.sablejade]]
+modId = "jade"
+type = "optional"
+versionRange = "[15.10.0,)"
+ordering = "AFTER"
+side = "CLIENT"
