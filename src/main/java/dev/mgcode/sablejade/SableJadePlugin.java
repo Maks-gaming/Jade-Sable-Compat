@@ -8,6 +8,7 @@ import dev.ryanhcode.sable.mixinterface.clip_overwrite.LevelPoseProviderExtensio
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,6 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import snownee.jade.api.Accessor;
 import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.EntityAccessor;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaPlugin;
 import snownee.jade.api.WailaPlugin;
@@ -25,10 +27,41 @@ import java.util.Objects;
 
 @WailaPlugin
 public final class SableJadePlugin implements IWailaPlugin {
+    private static final String HONEY_GLUE_ENTITY_ID = "simulated:honey_glue";
+
     @Override
     public void registerClient(final IWailaClientRegistration registration) {
         registration.addRayTraceCallback(1000,
-                (hitResult, accessor, originalAccessor) -> remapSubLevelBlockAccessor(registration, accessor));
+                (hitResult, accessor, originalAccessor) -> remapAccessor(registration, accessor));
+    }
+
+    private static Accessor<?> remapAccessor(final IWailaClientRegistration registration,
+            final Accessor<?> accessor) {
+        if (accessor == null) {
+            return null;
+        }
+
+        if (isHoneyGlueAccessor(accessor)) {
+            return passThroughHoneyGlue(registration, accessor);
+        }
+
+        return remapSubLevelBlockAccessor(registration, accessor);
+    }
+
+    private static boolean isHoneyGlueAccessor(final Accessor<?> accessor) {
+        return accessor instanceof EntityAccessor entityAccessor
+                && HONEY_GLUE_ENTITY_ID
+                        .equals(EntityType.getKey(entityAccessor.getEntity().getType()).toString());
+    }
+
+    private static Accessor<?> passThroughHoneyGlue(final IWailaClientRegistration registration,
+            final Accessor<?> accessor) {
+        final BlockHitResult correctedHitResult = retraceSubLevelBlock(accessor);
+        if (correctedHitResult == null || correctedHitResult.getType() != HitResult.Type.BLOCK) {
+            return null;
+        }
+
+        return buildBlockAccessor(registration, accessor, correctedHitResult);
     }
 
     private static Accessor<?> remapSubLevelBlockAccessor(final IWailaClientRegistration registration,
@@ -47,10 +80,17 @@ public final class SableJadePlugin implements IWailaPlugin {
             return accessor;
         }
 
-        final BlockPos plotPos = Objects.requireNonNull(correctedHitResult.getBlockPos());
+        final Accessor<?> correctedAccessor = buildBlockAccessor(registration, accessor, correctedHitResult);
+        return correctedAccessor == null ? accessor : correctedAccessor;
+    }
+
+    private static Accessor<?> buildBlockAccessor(final IWailaClientRegistration registration,
+            final Accessor<?> accessor,
+            final BlockHitResult hitResult) {
+        final BlockPos plotPos = Objects.requireNonNull(hitResult.getBlockPos());
         final BlockState blockState = accessor.getLevel().getBlockState(plotPos);
         if (blockState.isAir()) {
-            return accessor;
+            return null;
         }
 
         final BlockEntity blockEntity = blockState.hasBlockEntity() ? accessor.getLevel().getBlockEntity(plotPos)
@@ -65,7 +105,7 @@ public final class SableJadePlugin implements IWailaPlugin {
         if (accessor instanceof BlockAccessor blockAccessor) {
             return registration.blockAccessor()
                     .from(blockAccessor)
-                    .hit(correctedHitResult)
+                    .hit(hitResult)
                     .blockState(blockState)
                     .blockEntity(blockEntity)
                     .build();
@@ -75,7 +115,7 @@ public final class SableJadePlugin implements IWailaPlugin {
                 .serverData(accessor.getServerData().copy())
                 .serverConnected(accessor.isServerConnected())
                 .showDetails(accessor.showDetails())
-                .hit(correctedHitResult)
+                .hit(hitResult)
                 .blockState(blockState)
                 .blockEntity(blockEntity)
                 .requireVerification()
