@@ -1,5 +1,6 @@
 package dev.mgcode.sablejade.jade.tooltip;
 
+import dev.mgcode.sablejade.SableJadeConfig;
 import dev.mgcode.sablejade.compat.AeronauticsTooltipCompat;
 import dev.mgcode.sablejade.SableJadeMod;
 import dev.mgcode.sablejade.compat.CreateGogglesCompat;
@@ -67,8 +68,15 @@ public final class SablePhysicsTooltipProvider implements IBlockComponentProvide
 
     private static boolean shouldShowPhysicsInfo(final BlockAccessor accessor) {
         final Player player = accessor.getPlayer();
-        return player != null
-                && (player.isCreative() || player.isSpectator() || CreateGogglesCompat.isWearingCreateGoggles(player));
+        if (player == null) {
+            return false;
+        }
+
+        return switch (SableJadeConfig.tooltipInfoMode()) {
+            case NEVER -> false;
+            case ALWAYS -> true;
+            case WITH_GOGGLES -> CreateGogglesCompat.isWearingCreateGoggles(player);
+        };
     }
 
     private static void addLine(final ITooltip tooltip, final int preferredIndex, final Component component) {
