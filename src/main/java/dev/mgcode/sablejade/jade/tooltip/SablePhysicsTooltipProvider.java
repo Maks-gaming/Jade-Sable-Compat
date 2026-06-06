@@ -75,7 +75,8 @@ public final class SablePhysicsTooltipProvider implements IBlockComponentProvide
         return switch (SableJadeConfig.tooltipInfoMode()) {
             case NEVER -> false;
             case ALWAYS -> true;
-            case WITH_GOGGLES -> CreateGogglesCompat.isWearingCreateGoggles(player);
+            case WITH_GOGGLES ->
+                player.isCreative() || player.isSpectator() || CreateGogglesCompat.isWearingCreateGoggles(player);
         };
     }
 
