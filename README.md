@@ -4,15 +4,22 @@ Sable Jade Compat is a NeoForge client compatibility mod for Minecraft 1.21.1.
 
 Its job is simple: when a block belongs to a Sable sublevel or moving construction, Jade should identify the block you are actually looking at instead of some wrong block from the main level.
 
-## Release 1.0.0
+## Compatibility
 
-Release `1.0.0` is the first stable version of the project.
+This branch is intended for:
+
+- Minecraft `1.21.1`
+- Sable `1.2.2` through `2.x`
+
+## Release 1.2.0
+
+Release `1.2.0` targets the shared API surface used by both Sable `1.2.2` and `2.x`.
 
 It targets:
 
 - Minecraft `1.21.1`
-- NeoForge `21.1.227`
-- Sable `1.1.3`
+- NeoForge `21.1.228`
+- Sable `1.2.2` to `2.x`
 - Jade `15.10.5+neoforge`
 - Java `21`
 
