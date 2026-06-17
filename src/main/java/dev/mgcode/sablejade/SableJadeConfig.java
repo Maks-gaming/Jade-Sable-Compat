@@ -14,7 +14,7 @@ public final class SableJadeConfig {
                 .comment(
                         "Controls whether Sable Jade adds extra tooltip lines beyond fixing Jade's targeting.",
                         "Allowed values: NEVER, ALWAYS, WITH_GOGGLES")
-                .defineEnum("tooltipInfoMode", TooltipInfoMode.NEVER);
+                .defineEnum("tooltipInfoMode", TooltipInfoMode.WITH_GOGGLES);
         builder.pop();
 
         SPEC = builder.build();
