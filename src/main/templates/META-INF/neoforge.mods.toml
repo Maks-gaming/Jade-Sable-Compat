@@ -28,7 +28,7 @@ side = "BOTH"
 [[dependencies.sablejade]]
 modId = "sable"
 type = "required"
-versionRange = "[2.0.0,)"
+versionRange = "[${sable_min_version},)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -45,3 +45,6 @@ type = "optional"
 versionRange = "[6.0.10,)"
 ordering = "AFTER"
 side = "CLIENT"
+
+[[credits]]
+name = "Maks_gaming a.k.a mgcode"

@@ -28,32 +28,6 @@ repositories {
     exclusiveContent {
         forRepository {
             maven {
-                url = 'https://maven.blamejared.com/'
-                name = 'Jared Maven'
-            }
-        }
-        filter {
-            includeGroup('foundry.veil')
-            includeGroup('gg.moonflower')
-            includeGroup('io.github.ocelot')
-        }
-    }
-
-    exclusiveContent {
-        forRepository {
-            maven {
-                url = 'https://raw.githubusercontent.com/Fuzss/modresources/main/maven/'
-                name = 'Fuzs Mod Resources'
-            }
-        }
-        filter {
-            includeGroup('fuzs.forgeconfigapiport')
-        }
-    }
-
-    exclusiveContent {
-        forRepository {
-            maven {
                 url = 'https://maven.ryanhcode.dev/releases'
                 name = 'RyanHCode Maven'
             }
@@ -61,30 +35,6 @@ repositories {
         filter {
             includeGroup('dev.ryanhcode.sable')
             includeGroup('dev.ryanhcode.sable-companion')
-        }
-    }
-
-    exclusiveContent {
-        forRepository {
-            maven {
-                url = 'https://maven.ftb.dev/releases'
-                name = 'FTB Maven'
-            }
-        }
-        filter {
-            includeGroup('dev.ftb.mods')
-        }
-    }
-
-    exclusiveContent {
-        forRepository {
-            maven {
-                url = 'https://maven.architectury.dev/'
-                name = 'Architectury Maven'
-            }
-        }
-        filter {
-            includeGroup('dev.architectury')
         }
     }
 
@@ -172,6 +122,8 @@ def generateModMetadata = tasks.register('generateModMetadata', ProcessResources
         minecraft_version_range: minecraft_version_range,
         neo_version            : neo_version,
         loader_version_range   : loader_version_range,
+        sable_version          : sable_version,
+        sable_min_version      : sable_min_version,
         mod_id                 : mod_id,
         mod_name               : mod_name,
         mod_license            : mod_license,
