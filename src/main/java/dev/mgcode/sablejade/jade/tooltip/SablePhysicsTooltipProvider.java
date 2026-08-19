@@ -6,6 +6,8 @@ import dev.mgcode.sablejade.SableJadeMod;
 import dev.mgcode.sablejade.compat.CreateGogglesCompat;
 import dev.mgcode.sablejade.physics.PhysicsTooltipData;
 import dev.mgcode.sablejade.physics.SablePhysicsTooltipResolver;
+import dev.ryanhcode.sable.Sable;
+import dev.ryanhcode.sable.sublevel.SubLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -69,6 +71,11 @@ public final class SablePhysicsTooltipProvider implements IBlockComponentProvide
     private static boolean shouldShowPhysicsInfo(final BlockAccessor accessor) {
         final Player player = accessor.getPlayer();
         if (player == null) {
+            return false;
+        }
+
+        if (SableJadeConfig.tooltipInfoOnlyInSubLevels()
+                && !(Sable.HELPER.getContaining(accessor.getLevel(), accessor.getPosition()) instanceof SubLevel)) {
             return false;
         }
 

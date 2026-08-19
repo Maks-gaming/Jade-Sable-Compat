@@ -49,6 +49,20 @@ repositories {
             includeGroup('maven.modrinth')
         }
     }
+
+    exclusiveContent {
+        forRepository {
+            maven {
+                url = 'https://maven.blamejared.com'
+                name = 'BlameJared Maven'
+            }
+        }
+        filter {
+            includeGroup('foundry.veil')
+            includeGroup('gg.moonflower')
+            includeGroup('io.github.ocelot')
+        }
+    }
 }
 
 base {
